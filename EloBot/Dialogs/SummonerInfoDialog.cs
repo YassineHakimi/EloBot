@@ -57,12 +57,12 @@ namespace EloBot.Dialogs
                         {
                             var matches = await new RestApi().GetRecentMatches(server, res.accountId.ToString());
 
-                            if(res != null)
+                            await context.PostAsync($"hello {res.name}");
+
+                            if (matches != null)
                             {
-                                await context.PostAsync($"hello {res.name}");
                                 await context.PostAsync($"You played {matches.TotalGames} games");
                             }
-                            
                         }
                         else
                         {

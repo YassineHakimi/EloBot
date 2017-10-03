@@ -11,7 +11,7 @@ namespace EloBot.Api
     public class RestApi
     {
         private const string URL = ".api.riotgames.com/lol/";
-        private const string API_KEY = "?api_key=RGAPI-ec0a5458-a8ac-405d-9465-61997b437edb";
+        private const string API_KEY = "?api_key=RGAPI-ce1ee8e1-5930-4aa7-a327-70feb311e60a";
         
         public async Task<MatchList> GetRecentMatches(string server, string accountId)
         {
@@ -20,13 +20,22 @@ namespace EloBot.Api
 
             HttpClient client = new HttpClient();
 
-            var response = await client.GetAsync(MatchesUri);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<MatchList>(jsonResponse);
-                return data;
+                var response = await client.GetAsync(MatchesUri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<MatchList>(jsonResponse);
+                    return data;
+                }
+
+                return null;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
 
             return null;
